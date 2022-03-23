@@ -1,12 +1,12 @@
-import random
-import sys
+import sys, random, os
+from time import sleep
+
+import dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from time import sleep
-from selenium.webdriver.common.keys import Keys
-import dotenv, os
 
 # Enviornment variables
 dotenv.load_dotenv()
@@ -90,7 +90,7 @@ class RedditUser():
 # Read users data from file
 def get_users_data() -> list:
     users_asset = []
-    with open("accounts_data.txt", mode="r") as file:
+    with open("Data/accounts_data.txt", mode="r") as file:
         for line in file:
             user = line.split(":")
             users_asset.append((user[0], user[1]))
@@ -128,8 +128,8 @@ class OperationalData():
         self.downvoted_segment = int(downvoted_segment)
 
         self.user_accounts = get_users_data()
-        self.web_pages_to_upvote = get_target_data("targets_to_upvote.txt")
-        self.web_pages_to_downvote = get_target_data("targets_to_downvote.txt")
+        self.web_pages_to_upvote = get_target_data("Data/targets_to_upvote.txt")
+        self.web_pages_to_downvote = get_target_data("Data/targets_to_downvote.txt")
 
     # Masking suspicious activity by shuffling accounts and using parts of them
     def shuffle_accounts(self) -> list:
