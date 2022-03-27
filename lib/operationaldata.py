@@ -31,6 +31,12 @@ def randomize_data(data: list, limit: int) -> list:
     return data[:final_size]
 
 
+# Add voting action as a flag to url
+def add_flags(targets: list[str], flag: str) -> list[tuple]:
+    flagged_target = [(flag, target) for target in targets]
+    return flagged_target
+
+
 class OperationalData:
 
     # Read accounts & targets data from files
@@ -55,10 +61,10 @@ class OperationalData:
     def shuffle_targets(self) -> list:
 
         shuffled_list_to_upvote = randomize_data(self.web_pages_to_upvote, self.upvote_segment)
-        target_list_up = [("up", web_page) for web_page in shuffled_list_to_upvote]
+        target_list_up = add_flags(shuffled_list_to_upvote, "up")
 
         shuffled_list_to_downvote = randomize_data(self.web_pages_to_downvote, self.downvote_segment)
-        target_list_dn = [("dn", web_page) for web_page in shuffled_list_to_downvote]
+        target_list_dn = add_flags(shuffled_list_to_downvote, "dn")
 
         target_list = target_list_up + target_list_dn
         random.shuffle(target_list)
