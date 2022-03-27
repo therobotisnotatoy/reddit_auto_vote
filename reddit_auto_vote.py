@@ -20,17 +20,18 @@ def main() -> None:
 
     for account in accounts_sample:
 
-        reddit = RedditUser(account[0], account[1])
+        reddit = RedditUser(*account)
 
         # For every user get new web page samples
         webpages = od.shuffle_targets()
         success_up_counter, success_down_counter = 0, 0
+        user_name = account[0]
 
         try:
             reddit.login()
 
         except Exception:
-            print(f"Can not login user:{account[0]} Error: {Exception}")
+            print(f"Can not login user:{user_name} Error: {Exception}")
             break
 
         try:
@@ -42,15 +43,15 @@ def main() -> None:
                         success_down_counter += 1
 
             account_success_counter = success_up_counter + success_down_counter
-            print(f"User: {account[0]} upvote: {success_up_counter}, "
+            print(f"User: {user_name} upvote: {success_up_counter}, "
                   f"downvote: {success_down_counter}, successful attempts: {account_success_counter}"
                   f" (max={len(webpages)})")
             total_success_counter += account_success_counter
 
         except Exception:
-            print(f"User: {account[0]} failed! {Exception}")
+            print(f"User: {user_name} failed! {Exception}")
 
-    print(f"Total upvotes: {total_success_counter}")
+    print(f"Total votes: {total_success_counter}")
 
     return
 
